@@ -1,1 +1,28 @@
+import requests
+import pandas as pd
 
+def get_covid_stats(region):
+    # Construct the API URL for the specified region
+    # (The exact URL structure depends on the chosen API)
+    api_url = f" https://api.covidtracking.com/v1/states/current.json={region}"  
+
+    response = requests.get(api_url)
+    data = response.json()
+
+    if "error" not in data:
+        total_cases = data["total_cases"]
+        active_cases = data["active_cases"]
+        recoveries = data["recoveries"]
+        deaths = data["deaths"]
+
+        print(f"COVID-19 Statistics for {region}:")
+        print(f"Total Cases: {total_cases}")
+        print(f"Active Cases: {active_cases}")
+        print(f"Recoveries: {recoveries}")
+        print(f"Deaths: {deaths}")
+    else:
+        print(f"Error fetching data for {region}: {data['error']}")
+
+# Example usage:
+region_name = input("Enter region name: ")
+get_covid_stats(region_name)
