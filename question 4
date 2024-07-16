@@ -1,28 +1,27 @@
 import requests
-import pandas as pd
 
-def get_covid_stats(region):
-    # Construct the API URL for the specified region
-    # (The exact URL structure depends on the chosen API)
-    api_url = f" https://api.covidtracking.com/v1/states/current.json={region}"  
+def get_covid_stats(country, api_key):
 
-    response = requests.get(api_url)
+    url = f"https://disease.sh/v3/covid-19/countries/{country}"
+    headers = {
+        "x-rapidapi-key": "e55d7da88bmsha7b694725bbc642p18bde7jsn876e73fd68a0'",  # Replace with your actual API key header name
+        "x-rapidapi-host": "covid-19-data.p.rapidapi.com"  # Replace with the host header if needed
+    }
+    response = requests.get(url, headers=headers)
     data = response.json()
 
-    if "error" not in data:
-        total_cases = data["total_cases"]
-        active_cases = data["active_cases"]
-        recoveries = data["recoveries"]
-        deaths = data["deaths"]
+    # Extract relevant information
+    country_name = data["country"]
+    cases = data["cases"]
+    deaths = data["deaths"]
+    recovered = data["recovered"]
 
-        print(f"COVID-19 Statistics for {region}:")
-        print(f"Total Cases: {total_cases}")
-        print(f"Active Cases: {active_cases}")
-        print(f"Recoveries: {recoveries}")
-        print(f"Deaths: {deaths}")
-    else:
-        print(f"Error fetching data for {region}: {data['error']}")
+    # Print the statistics
+    print(f"COVID-19 Statistics for {country_name}:")
+    print(f"Total cases: {cases}")
+    print(f"Total deaths: {deaths}")
+    print(f"Total recovered: {recovered}")
 
 # Example usage:
-region_name = input("Enter region name: ")
-get_covid_stats(region_name)
+api_key = "6ded91a7c5mshe2cbc4c468bc8fap1d0f02jsna05278bdf612"  # Replace with your actual API key
+get_covid_stats("INDIA", api_key)
