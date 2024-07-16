@@ -1,5 +1,5 @@
 import requests
-#get apikey nd assign it to the url
+#get apikey and assign it to the url
 api_key="c88f171cd26d04130d39c9cfa1dbc76d"
 user_input=input("enter the city name:")
 weather_data=requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={user_input}&units=imperial&APPID={api_key}")
