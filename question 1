@@ -1,27 +1,14 @@
 import requests
 
-# Replace with your actual OpenWeatherMap API key
-api_key = 8762b167fca2889789090eb2d1406b5b 
+api_key="bb9a4a1b490a74776edb2e83a7ae1f4b"
+user_input=input("enter the city name:")
+weather_data=requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={user_input}&units=imperial&APPID={api_key}")
 
-def get_weather(city):
-    base_url = "http://api.openweathermap.org/data/2.5/weather?"
-    complete_url = base_url + "appid=" + api_key + "&q=" + city
-    response = requests.get(complete_url)
-    data = response.json()
+if weather_data.json()['cod']=='404':
+    print("no city found")
+else:
+  weather=weather_data.json()['weather'][0]['main']
+  temp=round(weather_data.json()['main']['temp'])
 
-    if data["cod"] != "404":
-        weather = data["weather"][0]["description"]
-        temperature = round(data["main"]["temp"] - 273.15, 2)  # Convert from Kelvin to Celsius
-        humidity = data["main"]["humidity"]
-        wind_speed = data["wind"]["speed"]
-
-        print(f"Weather in {city}: {weather}")
-        print(f"Temperature: {temperature}°C")
-        print(f"Humidity: {humidity}%")
-        print(f"Wind Speed: {wind_speed} m/s")
-    else:
-        print("City not found.")
-
-# Get user input for city
-city_name = input("Enter city name: ")
-get_weather(city_name)
+  print(f"the weather in {user_input} is {weather}")
+  print(f"the temperature in {user_input} is {temp}°F")
